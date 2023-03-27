@@ -44,7 +44,7 @@ class Channel:
 
     def __sub__(self, other):
         """Вычитает два канала между собой по количеству подписчиков."""
-        return self.subscriber_count
+        return self.subscriber_count - other.subscriber_count
 
     def __le__(self, other):
         """Сравнивает два канала между собой по количеству подписчиков."""
