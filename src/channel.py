@@ -7,8 +7,12 @@ class YouTubeConnector:
     """
     Класс коннектор к апи ютуба
     """
-    api_key = os.getenv('YT_API_KEY')
-    youtube = build('youtube', 'v3', developerKey=api_key)
+    __api_key = os.getenv('YT_API_KEY')
+    __youtube = build('youtube', 'v3', developerKey=__api_key)
+
+    @property
+    def youtube(self):
+        return self.__youtube
 
 
 class Channel(YouTubeConnector):
