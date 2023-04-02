@@ -2,7 +2,7 @@ from src.channel import YouTubeConnector
 from src.video import PLVideo
 import isodate
 from datetime import datetime, timedelta
-import json
+
 
 
 class PlayList(YouTubeConnector):
