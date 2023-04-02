@@ -1,16 +1,22 @@
 import json
-
 from googleapiclient.discovery import build
 import os
 
 
-class Channel:
-    """Класс для ютуб-канала"""
+class YouTubeConnector:
+    """
+    Класс коннектор к апи ютуба
+    """
     api_key = os.getenv('YT_API_KEY')
     youtube = build('youtube', 'v3', developerKey=api_key)
 
+
+class Channel(YouTubeConnector):
+    """Класс для ютуб-канала"""
+
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
+        super().__init__()
         self.channel_id = channel_id
         self.channel = self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
         self.title = self.channel['items'][0]['snippet']['title']
@@ -26,7 +32,7 @@ class Channel:
 
     @classmethod
     def get_service(cls):
-        return cls.youtube
+        return super().youtube
 
     def to_json(self, filename: str) -> None:
         with open(filename, 'w') as file:
@@ -50,3 +56,8 @@ class Channel:
         """Сравнивает два канала между собой по количеству подписчиков."""
         return self.subscriber_count <= other.subscriber_count
 
+    def __eq__(self, other):
+        return self.subscriber_count == other.subscriber_count
+
+    def __gt__(self, other):
+        return self.subscriber_count > other.subscriber_count
